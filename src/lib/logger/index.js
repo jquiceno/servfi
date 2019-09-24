@@ -1,6 +1,8 @@
-import Stream from 'stream'
-import Hoek from '@hapi/hoek'
-import Format from './format'
+'use strict'
+
+const Stream = require('stream')
+const Hoek = require('@hapi/hoek')
+const Format = require('./format')
 
 const defaults = {
   format: 'YYMMDD/HHmmss.SSS',

@@ -1,7 +1,9 @@
-import Hapi from '@hapi/hapi'
-import good from '@hapi/good'
-import defaults from 'defaults'
-import logger from './lib/logger'
+'use strict'
+
+const Hapi = require('@hapi/hapi')
+const good = require('@hapi/good')
+const defaults = require('defaults')
+const logger = require('./lib/logger')
 
 module.exports = {
   server (config = { port: null, host: null }) {

@@ -2,11 +2,9 @@
   "name": "servfi",
   "version": "0.0.1",
   "description": "Single Simple wrapper for servers, with the i need  extensions pre installed.",
-  "main": "./dist/index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "prepare": "npm run build",
-    "lint": "standard",
-    "build": "babel src --out-dir dist"
+    "lint": "standard"
   },
   "keywords": [
     "server",
@@ -20,15 +18,12 @@
   },
   "homepage": "https://github.com/jquiceno/servfi#readme",
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "babel-eslint": "^10.0.1",
-    "standard": "^12.0.1"
+    "ava": "^2.4.0",
+    "standard": "^14.3.1"
   },
   "dependencies": {
-    "@hapi/good": "^8.1.2",
-    "@hapi/hapi": "^18.1.0",
+    "@hapi/good": "^8.2.3",
+    "@hapi/hapi": "^18.4.0",
     "defaults": "^1.0.3"
   }
 }

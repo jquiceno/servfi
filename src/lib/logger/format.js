@@ -1,5 +1,7 @@
-import Moment from 'moment'
-import SafeStringify from 'json-stringify-safe'
+'use strict'
+
+const Moment = require('moment')
+const SafeStringify = require('json-stringify-safe')
 
 module.exports = {
   output (event, settings) {
