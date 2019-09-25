@@ -6,62 +6,76 @@ const defaults = require('defaults')
 const logger = require('./lib/logger')
 
 module.exports = {
-  server (config = { port: null, host: null }) {
-    config = defaults(config, {
-      router: {
-        stripTrailingSlash: true
-      }
-    })
-
-    const server = new Hapi.Server(config)
-
-    return server
-  },
-
-  async start ({ config = {}, name = null, register = null, routes = null, logs }) {
-    if (!routes || !Array.isArray(routes)) throw new Error('Routes not is Array')
-
-    logs = defaults(logs, {
-      ops: false,
-      config: {}
-    })
-
-    logs.config.name = name
-
-    const server = this.server(config)
-
+  async server ({ routes, config, register, logs, name }) {
     try {
-      if (register) {
-        await server.register(register)
-      }
+      if (!routes || !Array.isArray(routes)) throw new Error('Routes not is Array')
+
+      logs = (logs === true) ? {} : logs
+
+      logs = defaults(logs, {
+        ops: false,
+        config: {}
+      })
+
+      config = defaults(config, {
+        router: {
+          stripTrailingSlash: true
+        }
+      })
+
+      logs.config.name = name || null
+
+      const server = new Hapi.Server(config)
 
       server.route(routes)
 
-      if (logs) {
-        await server.register({
-          plugin: good,
-          options: {
-            ops: logs.ops || false,
-            reporters: {
-              console: [{
-                module: logger,
-                args: (logs.config) ? [logs.config] : []
-              },
-              'stdout'
-              ]
-            }
+      register && await server.register(register)
+
+      logs && await server.register({
+        plugin: good,
+        options: {
+          ops: logs.ops || false,
+          reporters: {
+            console: [{
+              module: logger,
+              args: (logs.config) ? [logs.config] : []
+            },
+            'stdout'
+            ]
           }
-        })
-      }
+        }
+      })
+
+      server.info.name = name || null
+
+      return Promise.resolve(server)
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  },
+
+  async start ({ config, routes, register, logs, name }) {
+    try {
+      const server = await this.server({
+        config,
+        routes,
+        register,
+        logs
+      })
 
       await server.start()
 
       server.log('info', `${name || ''} server start in port: ${server.info.port}`)
 
-      return Promise.resolve(server.info)
-    } catch (e) {
-      server.log('error', e)
-      return Promise.reject(e)
+      return Promise.resolve(server)
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(err)
     }
   }
 }
+
+process.on('unhandledRejection', (err) => {
+  console.error(err)
+  process.exit(1)
+})
