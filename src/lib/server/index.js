@@ -20,7 +20,7 @@ class Server {
   }
 
   async start ({ importRoutes = true } = {}) {
-    if (importRoutes) this.importRoutes()
+    if (importRoutes) this.addRoutes()
 
     await this._server.start()
     return this.getInfo()
@@ -30,7 +30,8 @@ class Server {
     return this._server.info
   }
 
-  addRoutes (routes) {
+  addRoutes (routes = false) {
+    routes = routes || this.getFromPath(this.routesPaths)
     routes = (typeof routes !== 'string') ? routes : this.getFromPath(routes)
     routes = !Array.isArray(routes) ? [routes] : routes
 
@@ -38,7 +39,7 @@ class Server {
     return this._server.route(routes)
   }
 
-  resolvePaths (paths = false) {
+  resolvePaths (paths) {
     let results = []
     paths = Array.isArray(paths) ? paths : [paths]
 
@@ -69,12 +70,6 @@ class Server {
     } catch (error) {
       throw new Error(`Invalid route path: ${resolve(path)}`)
     }
-  }
-
-  importRoutes () {
-    this.resolvePaths(this.routesPaths).forEach(p => {
-      this.addRoutes(p)
-    })
   }
 }
 
