@@ -1,10 +1,15 @@
 'use strict'
 
-const Hapi = require('@hapi/hapi')
-const good = require('@hapi/good')
-const defaults = require('defaults')
-const logger = require('./lib/logger')
+// const good = require('@hapi/good')
+// const defaults = require('defaults')
+// const logger = require('./lib/logger')
+const Server = require('./lib/server')
 
+module.exports = {
+  Server
+}
+
+/*
 module.exports = {
   async server ({ routes, config, register, logs, name }) {
     if (!routes || !Array.isArray(routes)) throw new Error('Routes not is Array')
@@ -62,4 +67,4 @@ module.exports = {
 
     return server
   }
-}
+} */
