@@ -1,6 +1,6 @@
 {
   "name": "servfi",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Single Simple wrapper for servers, with the i need  extensions pre installed.",
   "main": "./src/index.js",
   "scripts": {
