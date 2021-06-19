@@ -44,7 +44,7 @@ class Server {
     paths = Array.isArray(paths) ? paths : [paths]
 
     paths.forEach(p => {
-      results = results.concat(glob.sync(p))
+      results = results.concat(glob.sync(p, { ignore: '**/node_modules/*' }))
     })
 
     return [...new Set(results)]
